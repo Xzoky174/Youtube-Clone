@@ -1,0 +1,24 @@
+@import url(https://fonts.googleapis.com/css?family=Quicksand:500);
+
+.videoContainer {
+  text-align: center;
+}
+.videoInfo {
+  padding: 12px 48px;
+  font-family: Quicksand, sans-serif;
+}
+.videoTitle {
+  font-size: 28px;
+}
+.authorInfo {
+  margin-top: 36px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.authorImage {
+  cursor: pointer;
+}
+.authorName {
+  font-size: 22px;
+}

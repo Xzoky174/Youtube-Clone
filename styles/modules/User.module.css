@@ -1,0 +1,28 @@
+@import url(https://fonts.googleapis.com/css?family=Quicksand:500);
+
+.main {
+  padding: 30px 40px;
+}
+.userInfoContainer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.userName {
+  font-family: Quicksand, sans-serif;
+  font-size: 28px;
+}
+.videoList {
+  padding: 0;
+  font-family: Quicksand, sans-serif;
+}
+.video {
+  list-style-type: none;
+}
+.videoLink {
+  font-size: 24px;
+}
+.videoLink:hover {
+  color: #3498db;
+  text-decoration: underline;
+}

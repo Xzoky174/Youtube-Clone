@@ -1,0 +1,38 @@
+.main {
+  padding: 30px 40px;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.formSection {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.label {
+  font-size: 22px;
+  font-family: "PT Sans", sans-serif;
+}
+.titleInput {
+  padding: 2px 3px;
+  font-size: 14px;
+  width: 200px;
+}
+.submitBtn {
+  margin-top: 8px;
+  font-size: 16px;
+  transition: 0.25s;
+  cursor: pointer;
+  text-align: center;
+  width: fit-content;
+  border: 0;
+  background-color: #3498db;
+  color: #fff;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+.submitBtn:hover {
+  background-color: #3498dbd1;
+}
