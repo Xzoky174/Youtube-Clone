@@ -2,7 +2,6 @@ import connect from "../../../utils/mongoConnect";
 
 import { getNextConnectInstance } from "../../../utils/getNextConnectInstance";
 import mongoose from "mongoose";
-import { VideoDocument } from "../../../types/VideoDocument";
 import { UserDocument } from "../../../types/UserDocument";
 
 const apiRoute = getNextConnectInstance();
