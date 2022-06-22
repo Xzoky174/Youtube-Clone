@@ -5,12 +5,12 @@ import styles from "../../styles/modules/Navbar.module.css";
 import logo from "../../public/logo.svg";
 import Link from "next/link";
 
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
 
 export default function Navbar() {
-  const { data: session, status } = useSession();
+  // const { data: session, status } = useSession();
 
   const [image, setImage] = useState(null);
   const [id, setId] = useState(null);
@@ -34,17 +34,17 @@ export default function Navbar() {
       searchInputRef.current.value = "";
     }
 
-    if (status === "authenticated") {
-      setImage(session.user.image);
-      setId(session.user.id);
-    }
+    // if (status === "authenticated") {
+    //   setImage(session.user.image);
+    //   setId(session.user.id);
+    // }
 
     document.addEventListener("keydown", keyDown);
 
     return () => {
       document.removeEventListener("keydown", keyDown);
     };
-  }, [status, session, keyDown]);
+  }, [keyDown]);
 
   const onExecuteSearch = () => {
     const searchInput = searchInputRef.current.value;

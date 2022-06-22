@@ -1,20 +1,18 @@
-import { useSession } from "next-auth/react";
-
 import styles from "../styles/modules/Upload.module.css";
 import Loader from "./components/Loader";
 
 function Upload() {
-  const { status } = useSession({
-    required: true,
-  });
+  // const { status } = useSession({
+  //   required: true,
+  // });
 
-  if (status === "loading") {
-    return (
-      <div className={`loader`}>
-        <Loader />
-      </div>
-    );
-  }
+  // if (status === "loading") {
+  //   return (
+  //     <div className={`loader`}>
+  //       <Loader />
+  //     </div>
+  //   );
+  // }
 
   return (
     <div className={`${styles.main}`}>
