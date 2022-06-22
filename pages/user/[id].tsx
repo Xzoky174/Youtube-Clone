@@ -4,17 +4,16 @@ import { fetcher } from "../../utils/fetcher";
 import Image from "next/image";
 
 import styles from "../../styles/modules/User.module.css";
-import Link from "next/link";
 
-import { VideoDocument } from "../../types/VideoDocument";
-import { UserDocument } from "../../types/UserDocument";
 import Loader from "../components/Loader";
+import { VideoDocument } from "../../types/VideoDocument";
+import Link from "next/link";
 
 function User() {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data, error } = useSWR(`/api/user/${id}`, fetcher);
+  const { data, error } = useSWR(`/api/user/with-videos/${id}`, fetcher);
 
   return (
     <div>
@@ -26,15 +25,16 @@ function User() {
             <div className={`${styles.userInfoContainer}`}>
               <Image
                 className={`avatar`}
-                src={data.data.image}
+                src={data.data.user.picture}
                 width={50}
                 height={50}
                 alt="Profile"
               />
-              <p className={`${styles.userName}`}>{data.data.name}</p>
+              <p className={`${styles.userName}`}>{data.data.user.name}</p>
             </div>
 
-            <ul className={`${styles.videoList}`}>
+            <h1 className={styles.videoHeader}>Videos:</h1>
+            <ul className={styles.videoList}>
               {data.data.videos.map((video: VideoDocument) => {
                 return (
                   <li key={video._id} className={`${styles.video}`}>

@@ -12,6 +12,11 @@
   font-family: Quicksand, sans-serif;
   font-size: 28px;
 }
+.videoHeader {
+  font-family: Quicksand, sans-serif;
+  margin-top: 28px;
+  margin-bottom: 0;
+}
 .videoList {
   padding: 0;
   font-family: Quicksand, sans-serif;

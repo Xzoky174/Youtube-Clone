@@ -16,5 +16,8 @@ export default async function getTokens(code: string | string[]) {
     body: JSON.stringify(values),
   });
 
-  return response.json();
+  const res = response.json();
+
+  console.log(await res);
+  return res;
 }
