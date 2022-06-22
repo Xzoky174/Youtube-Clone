@@ -48,21 +48,22 @@ function Video() {
                 controls
               >
                 <source
-                  src={data.data.path.replace("public", "")}
+                  src={data.data.video.path.replace("public", "")}
                   type={
-                    "video/" + path.extname(data.data.path).replace(".", "")
+                    "video/" +
+                    path.extname(data.data.video.path).replace(".", "")
                   }
                 />
               </video>
             </div>
             <div className={styles.videoInfo}>
-              <h1 className={styles.videoTitle}>{data.data.title}</h1>
+              <h1 className={styles.videoTitle}>{data.data.video.title}</h1>
 
-              <Link href={`/user/${data.data.author._id}`} passHref>
+              <Link href={`/user/${data.data.author.id}`} passHref>
                 <a className={styles.authorInfo}>
                   <Image
                     className={`avatar ${styles.authorImage}`}
-                    src={data.data.author.image}
+                    src={data.data.author.picture}
                     alt="profile picture"
                     width={45}
                     height={45}

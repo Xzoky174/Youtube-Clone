@@ -1,22 +1,25 @@
-import { useSession } from "next-auth/react";
-
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import styles from "../styles/modules/Upload.module.css";
 import Loader from "./components/Loader";
+import useSession from "./hooks/useSession";
 
 function Upload() {
-  const { status } = useSession({
-    required: true,
-  });
+  const router = useRouter();
+  const { user } = useSession();
+  const [loading, setLoading] = useState(true);
 
-  if (status === "loading") {
-    return (
-      <div className={`loader`}>
-        <Loader />
-      </div>
-    );
-  }
+  useEffect(() => {
+    if (user !== undefined) {
+      setLoading(false);
 
-  return (
+      if (!user) {
+        router.replace("/api/auth/signin");
+      }
+    }
+  }, [user, router]);
+
+  return !loading ? (
     <div className={`${styles.main}`}>
       <form
         className={`${styles.form}`}
@@ -48,6 +51,10 @@ function Upload() {
           Upload
         </button>
       </form>
+    </div>
+  ) : (
+    <div className="loader">
+      <Loader />
     </div>
   );
 }

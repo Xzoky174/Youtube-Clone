@@ -1,6 +1,5 @@
 export type UserDocument = {
   _id: string;
-  name: string;
-  email: string;
-  image: string;
+  id: string;
+  refresh_token: string;
 };

@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 
+// TODO: Implement
 export default function Index() {
   const router = useRouter();
 

@@ -1,19 +1,15 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import Image from "next/image";
 import styles from "../../styles/modules/Navbar.module.css";
 
 import logo from "../../public/logo.svg";
 import Link from "next/link";
 
-import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/router";
+import useSession from "../hooks/useSession";
 
 export default function Navbar() {
-  const { data: session, status } = useSession();
-
-  const [image, setImage] = useState(null);
-  const [id, setId] = useState(null);
+  const { user } = useSession();
 
   const router = useRouter();
 
@@ -23,6 +19,7 @@ export default function Navbar() {
     if (e.keyCode === 13 && document.activeElement === searchInputRef.current) {
       onExecuteSearch();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -34,17 +31,12 @@ export default function Navbar() {
       searchInputRef.current.value = "";
     }
 
-    if (status === "authenticated") {
-      setImage(session.user.image);
-      setId(session.user.id);
-    }
-
     document.addEventListener("keydown", keyDown);
 
     return () => {
       document.removeEventListener("keydown", keyDown);
     };
-  }, [status, session, keyDown]);
+  }, [keyDown, router.query.search_query]);
 
   const onExecuteSearch = () => {
     const searchInput = searchInputRef.current.value;
@@ -85,18 +77,18 @@ export default function Navbar() {
       </div>
 
       <div className={styles.options}>
-        <Link href={image ? "/upload" : "/api/auth/signin"} passHref>
+        <Link href={user ? "/upload" : "/api/auth/signin"} passHref>
           <a>
             <span className={`material-icons ${styles.upload}`}>
               file_upload
             </span>
           </a>
         </Link>
-        <Link href={id ? `/user/${id}` : "/api/auth/signin"} passHref>
+        <Link href={user ? `/user/${user.id}` : "/api/auth/signin"} passHref>
           <a>
-            {image ? (
+            {user ? (
               <Image
-                src={image}
+                src={user.picture}
                 className={`avatar ${styles.account} ${styles.accountSigned}`}
                 alt="profile"
                 width={45}

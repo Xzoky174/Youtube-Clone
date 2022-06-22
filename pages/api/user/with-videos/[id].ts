@@ -1,7 +1,7 @@
-import { UserDocument } from "../../../types/UserDocument";
-import getAccessToken from "../../../utils/getAccessToken";
-import { getNextConnectInstance } from "../../../utils/getNextConnectInstance";
-import connect from "../../../utils/mongoConnect";
+import { UserDocument } from "../../../../types/UserDocument";
+import getAccessToken from "../../../../utils/getAccessToken";
+import { getNextConnectInstance } from "../../../../utils/getNextConnectInstance";
+import connect from "../../../../utils/mongoConnect";
 
 const apiRoute = getNextConnectInstance();
 
@@ -27,8 +27,10 @@ apiRoute.get(async (req, res) => {
     )
   ).json();
 
+  const videos = await Video.find({ author_id: id });
+
   res.status(200).json({
-    data: { user: { ...googleUser } },
+    data: { user: { ...googleUser }, videos: videos },
     success: true,
   });
 });
