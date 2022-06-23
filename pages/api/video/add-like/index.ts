@@ -6,7 +6,7 @@ const apiRoute = getNextConnectInstance();
 
 apiRoute.put(async (req, res) => {
   const { video_id } = req.body;
-  const { authenticated } = await checkAuthenticated(req, res);
+  const { user, authenticated } = await checkAuthenticated(req, res);
 
   if (!authenticated) {
     res.status(401).json({
@@ -28,7 +28,7 @@ apiRoute.put(async (req, res) => {
   const { Video } = await connect();
   const video_likes = await Video.findOneAndUpdate(
     { _id: video_id },
-    { $inc: { likes: 1 } },
+    { $inc: { likes: 1 }, $push: { users_liked: user.id } },
     { new: true }
   ).select("likes -_id");
 
