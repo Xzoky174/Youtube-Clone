@@ -3,11 +3,11 @@
 New update TODO:
 
 - [ ] Add likes
-  - [x] Server Side
-  - [ ] Client Side
+  - [x] API
+  - [ ] Client
 - [ ] Add comments
-  - [ ] Server Side
-  - [ ] Client Side
+  - [ ] API
+  - [ ] Client
 - [ ] Add views
-  - [ ] Server Side
-  - [ ] Client Side
+  - [ ] API
+  - [ ] Client
