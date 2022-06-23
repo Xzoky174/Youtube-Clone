@@ -5,11 +5,15 @@ import { fetcher } from "../../utils/fetcher";
 
 export default function useSession() {
   const { data, error } = useSWR("/api/cookies/get-user", fetcher);
+  const [loading, setLoading] = useState(true);
   const [user, setUser] = useState(null);
 
   useEffect(() => {
-    data && setUser(data.user);
+    if (data !== undefined) {
+      setUser(data.user);
+      setLoading(false);
+    }
   }, [data, error]);
 
-  return { user };
+  return { loading, user };
 }

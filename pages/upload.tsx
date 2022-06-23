@@ -1,23 +1,20 @@
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import styles from "../styles/modules/Upload.module.css";
 import Loader from "./components/Loader";
 import useSession from "./hooks/useSession";
 
 function Upload() {
   const router = useRouter();
-  const { user } = useSession();
-  const [loading, setLoading] = useState(true);
+  const { user, loading } = useSession();
 
   useEffect(() => {
-    if (user !== undefined) {
-      setLoading(false);
-
+    if (!loading) {
       if (!user) {
         router.replace("/api/auth/signin");
       }
     }
-  }, [user, router]);
+  }, [loading, user, router]);
 
   return !loading ? (
     <div className={`${styles.main}`}>
