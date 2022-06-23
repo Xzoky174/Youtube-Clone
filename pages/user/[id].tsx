@@ -8,6 +8,7 @@ import styles from "../../styles/modules/User.module.css";
 import Loader from "../components/Loader";
 import { VideoDocument } from "../../types/VideoDocument";
 import Link from "next/link";
+import getVideoLink from "../../utils/getVideoLink";
 
 function User() {
   const router = useRouter();
@@ -33,12 +34,13 @@ function User() {
               <p className={`${styles.userName}`}>{data.data.user.name}</p>
             </div>
 
+            {/* // TODO: Hide when there are no videos */}
             <h1 className={styles.videoHeader}>Videos:</h1>
             <ul className={styles.videoList}>
               {data.data.videos.map((video: VideoDocument) => {
                 return (
                   <li key={video._id} className={`${styles.video}`}>
-                    <Link href={`/video/${video._id}`} passHref>
+                    <Link href={getVideoLink(video._id)} passHref>
                       <a className={`${styles.videoLink}`}>{video.title}</a>
                     </Link>
                   </li>
