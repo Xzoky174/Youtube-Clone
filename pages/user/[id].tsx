@@ -34,19 +34,22 @@ function User() {
               <p className={`${styles.userName}`}>{data.data.user.name}</p>
             </div>
 
-            {/* // TODO: Hide when there are no videos */}
-            <h1 className={styles.videoHeader}>Videos:</h1>
-            <ul className={styles.videoList}>
-              {data.data.videos.map((video: VideoDocument) => {
-                return (
-                  <li key={video._id} className={`${styles.video}`}>
-                    <Link href={getVideoLink(video._id)} passHref>
-                      <a className={`${styles.videoLink}`}>{video.title}</a>
-                    </Link>
-                  </li>
-                );
-              })}
-            </ul>
+            {data.data.videos.length > 0 && (
+              <>
+                <h1 className={styles.videoHeader}>Videos:</h1>
+                <ul className={styles.videoList}>
+                  {data.data.videos.map((video: VideoDocument) => {
+                    return (
+                      <li key={video._id} className={`${styles.video}`}>
+                        <Link href={getVideoLink(video._id)} passHref>
+                          <a className={`${styles.videoLink}`}>{video.title}</a>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </>
+            )}
           </div>
         ) : (
           <h1>User Not Found</h1>
