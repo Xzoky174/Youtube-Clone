@@ -1,3 +1,5 @@
-# A crappy clone of YouTube
+# A clone of YouTube
 
-(Some features are still missing)
+TODO:
+
+1.  Add likes feature
