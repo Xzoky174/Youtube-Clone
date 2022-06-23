@@ -7,41 +7,46 @@ const apiRoute = getNextConnectInstance();
 apiRoute.get(async (req, res) => {
   const { id } = req.query;
 
-  if (id !== undefined && id !== null) {
-    const { Video } = await connect();
+  if (id === undefined || id === null) {
+    res
+      .status(400)
+      .json({ success: false, error: "Video Not Found", data: {} });
+    return;
+  }
 
-    const video = await Video.findOne({ _id: id });
+  const { Video } = await connect();
 
-    if (video) {
-      const author = await (
-        await fetch(`http://localhost:3000/api/user/${video.author_id}`)
-      ).json();
+  let video: { author_id: any; _doc: any };
+  try {
+    video = await Video.findOne({ _id: id });
+  } catch {} // Unnecessary error when id is undefined; ignore.
 
-      if (author) {
-        res.status(200).json({
-          success: true,
-          data: {
-            video: { ...video._doc },
-            author: { ...author.data.user },
-          },
-        });
-      } else {
-        // Author of video has been deleted, so delete the video.
-        await Video.findOneAndDelete({ _id: id });
+  if (!video) {
+    res
+      .status(400)
+      .json({ success: false, error: "Video Not Found", data: {} });
+    return;
+  }
 
-        res
-          .status(400)
-          .json({ success: false, error: "Video Not Found", data: {} });
-      }
+  const author = await (
+    await fetch(`http://localhost:3000/api/user/${video.author_id}`)
+  ).json();
 
-      return;
-    }
+  if (author) {
+    res.status(200).json({
+      success: true,
+      data: {
+        video: { ...video._doc },
+        author: { ...author.data.user },
+      },
+    });
+  } else {
+    // Author of video has been deleted, so delete the video.
+    await Video.findOneAndDelete({ _id: id });
 
     res
       .status(400)
       .json({ success: false, error: "Video Not Found", data: {} });
-  } else {
-    res.status(400).json({ success: false, data: {} });
   }
 });
 
