@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 
-export default new mongoose.Schema({
+const VideoSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
@@ -13,4 +13,6 @@ export default new mongoose.Schema({
     type: String,
     required: true,
   },
-});
+}).index({ title: "text" });
+
+export default VideoSchema;

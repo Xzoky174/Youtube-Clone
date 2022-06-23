@@ -4,7 +4,7 @@ import styles from "../../styles/modules/Navbar.module.css";
 import logo from "../../public/logo.svg";
 import Link from "next/link";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/router";
 import useSession from "../hooks/useSession";
 
@@ -45,7 +45,7 @@ export default function Navbar() {
       console.log(searchInput);
 
       router.push({
-        pathname: "/video",
+        pathname: "/search",
         query: { search_query: searchInput },
       });
     }

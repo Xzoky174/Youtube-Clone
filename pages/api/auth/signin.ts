@@ -1,10 +1,10 @@
 import { getNextConnectInstance } from "../../../utils/getNextConnectInstance";
-import googleAuthUrl from "../../../utils/googleAuthUrl";
+import getGoogleAuthUrl from "../../../utils/getGoogleAuthUrl";
 
 const apiRoute = getNextConnectInstance();
 
 apiRoute.get((req, res) => {
-  res.redirect(googleAuthUrl());
+  res.redirect(getGoogleAuthUrl());
 });
 
 export default apiRoute;

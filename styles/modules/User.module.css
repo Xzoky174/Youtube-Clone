@@ -15,9 +15,10 @@
 .videoHeader {
   font-family: Quicksand, sans-serif;
   margin-top: 28px;
-  margin-bottom: 0;
+  margin-bottom: 8px;
 }
 .videoList {
+  margin-top: 0;
   padding: 0;
   font-family: Quicksand, sans-serif;
 }
@@ -26,8 +27,8 @@
 }
 .videoLink {
   font-size: 24px;
+  color: #3498db;
 }
 .videoLink:hover {
-  color: #3498db;
   text-decoration: underline;
 }
