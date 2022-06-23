@@ -26,13 +26,9 @@ apiRoute.put(async (req, res) => {
   }
 
   const { Video } = await connect();
-  const video_likes = await Video.findOneAndUpdate(
-    { _id: video_id },
-    { $inc: { likes: 1 }, $push: { users_liked: user.id } },
-    { new: true }
-  ).select("likes -_id");
+  const video = await Video.findOne({ _id: video_id });
 
-  if (!video_likes) {
+  if (!video) {
     res.status(400).json({
       success: false,
       error: "Video not found.",
@@ -40,10 +36,20 @@ apiRoute.put(async (req, res) => {
     });
     return;
   }
+  if (video.users_liked.includes(user.id)) {
+    res.status(403).json({
+      success: false,
+      error: "User already liked this video.",
+      likes: null,
+    });
+    return;
+  }
 
-  res
-    .status(200)
-    .json({ success: true, error: null, likes: video_likes.likes });
+  video.users_liked.push(user.id);
+  video.likes += 1;
+  video.save();
+
+  res.status(200).json({ success: true, error: null, likes: video.likes });
 });
 
 export default apiRoute;
