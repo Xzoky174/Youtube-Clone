@@ -1,5 +1,7 @@
 # A clone of YouTube
 
-TODO:
+New update TODO:
 
-1.  Add likes feature
+- [ ] Add likes
+- [ ] Add comments
+- [ ] Add views
