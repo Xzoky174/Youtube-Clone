@@ -23,7 +23,7 @@ function User() {
         setData(data);
         setLoading(false);
       });
-  });
+  }, [id]);
 
   return (
     <div>
