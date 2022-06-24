@@ -16,7 +16,7 @@ function Video() {
   const [data, setData] = useState(null);
   const [error, setError] = useState(null);
 
-  const [refresh, setRefresh] = useState(false);
+  const [refresh, setRefresh] = useState(0);
 
   const [liked, setLiked] = useState(false);
   const [disliked, setDisLiked] = useState(false);
@@ -78,7 +78,7 @@ function Video() {
             }),
           });
 
-          setRefresh(true);
+          setRefresh(refresh + 1);
         } else {
           handleDisLike();
         }
@@ -99,7 +99,7 @@ function Video() {
       }),
     });
 
-    setRefresh(true);
+    setRefresh(refresh + 1);
   };
 
   return (
@@ -147,10 +147,12 @@ function Video() {
                     height={32}
                   />
                   <p className={styles.likes}>
-                    {data.data.video.likes +
-                      (liked && !data.data.video.users_liked.includes(user.id)
-                        ? 1
-                        : 0)}
+                    {!disliked
+                      ? data.data.video.likes +
+                        (liked && !data.data.video.users_liked.includes(user.id)
+                          ? 1
+                          : 0)
+                      : data.data.video.likes - 1}
                   </p>
                 </div>
               </div>
