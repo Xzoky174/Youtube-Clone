@@ -10,6 +10,22 @@
 .videoTitle {
   font-size: 28px;
 }
+.like {
+  display: flex;
+  margin-top: 18px;
+}
+.likeSub {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 10px;
+}
+.likeImage {
+  fill: #fff;
+}
+.likes {
+  font-size: 22px;
+}
 .authorInfo {
   margin-top: 36px;
   display: flex;

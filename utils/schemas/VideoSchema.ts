@@ -13,6 +13,14 @@ const VideoSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  likes: {
+    type: Number,
+    default: 0,
+  },
+  users_liked: {
+    type: Array,
+    default: [],
+  },
 }).index({ title: "text" });
 
 export default VideoSchema;

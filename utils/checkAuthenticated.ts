@@ -2,6 +2,7 @@ import { getCookie } from "cookies-next";
 import { ServerResponse } from "http";
 import { verify } from "jsonwebtoken";
 import { NextApiRequest } from "next";
+import { UserDocument } from "../types/UserDocument";
 import connect from "./mongoConnect";
 
 interface JwtPayload {
@@ -24,7 +25,7 @@ export default async function checkAuthenticated(
       token.toString(),
       process.env.JWT_SECRET
     ) as JwtPayload;
-    const user = await User.findOne({ id: decoded.id });
+    const user: UserDocument = await User.findOne({ id: decoded.id });
 
     if (!user) {
       return { authenticated: false, user: null };

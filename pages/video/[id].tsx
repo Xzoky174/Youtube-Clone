@@ -1,25 +1,52 @@
 import { useRouter } from "next/router";
 import path from "path";
 import { useEffect, useState } from "react";
-import useSWR from "swr";
-import { fetcher } from "../../utils/fetcher";
 import Image from "next/image";
 
 import styles from "../../styles/modules/Video.module.css";
 import Link from "next/link";
 import Loader from "../components/Loader";
+import useSession from "../hooks/useSession";
 
 function Video() {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data, error } = useSWR(`/api/video/${id}`, fetcher);
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
+
+  const [refresh, setRefresh] = useState(false);
+
+  const [liked, setLiked] = useState(false);
+  const [disliked, setDisLiked] = useState(false);
+
+  const { user, loading } = useSession();
+
   const [videoDimensions, setVideoDimensions] = useState({
     width: 0,
     height: 0,
   });
 
   useEffect(() => {
+    if (id !== undefined) {
+      fetch(`/api/video/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          setData(data);
+
+          setLiked(false);
+          setDisLiked(false);
+
+          setError(null);
+        })
+        .catch((e) => {
+          setError(e);
+
+          setLiked(false);
+          setDisLiked(false);
+        });
+    }
+
     setVideoDimensions({
       width: window.innerWidth - 20,
       height: 480,
@@ -30,7 +57,50 @@ function Video() {
         width: window.innerWidth - 20,
         height: 480,
       });
-  }, [data]);
+  }, [id, refresh]);
+
+  const handleLike = async () => {
+    if (!loading) {
+      if (!user) {
+        router.push("/api/auth/signin");
+      }
+      if (data) {
+        if (!data.data.video.users_liked.includes(user.id)) {
+          setLiked(true);
+
+          await fetch("/api/video/add-like", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              video_id: data.data.video._id,
+            }),
+          });
+
+          setRefresh(true);
+        } else {
+          handleDisLike();
+        }
+      }
+    }
+  };
+
+  const handleDisLike = async () => {
+    setDisLiked(true);
+
+    await fetch("/api/video/remove-like", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        video_id: data.data.video._id,
+      }),
+    });
+
+    setRefresh(true);
+  };
 
   return (
     <div>
@@ -58,6 +128,32 @@ function Video() {
             </div>
             <div className={styles.videoInfo}>
               <h1 className={styles.videoTitle}>{data.data.video.title}</h1>
+
+              <div className={styles.like}>
+                <div className={styles.likeSub} onClick={handleLike}>
+                  <Image
+                    className={styles.likeImage}
+                    src={
+                      user &&
+                      data &&
+                      (liked ||
+                        (data.data.video.users_liked.includes(user.id) &&
+                          !disliked))
+                        ? "/liked-icon.svg"
+                        : "/like-icon.svg"
+                    }
+                    alt="like"
+                    width={32}
+                    height={32}
+                  />
+                  <p className={styles.likes}>
+                    {data.data.video.likes +
+                      (liked && !data.data.video.users_liked.includes(user.id)
+                        ? 1
+                        : 0)}
+                  </p>
+                </div>
+              </div>
 
               <Link href={`/user/${data.data.author.id}`} passHref>
                 <a className={styles.authorInfo}>
