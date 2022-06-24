@@ -3,7 +3,7 @@ import getGoogleAuthUrl from "../../../utils/getGoogleAuthUrl";
 
 const apiRoute = getNextConnectInstance();
 
-apiRoute.get((req, res) => {
+apiRoute.get((_, res) => {
   res.redirect(getGoogleAuthUrl());
 });
 

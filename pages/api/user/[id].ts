@@ -12,7 +12,7 @@ apiRoute.get(async (req, res) => {
     return;
   }
 
-  const { User, Video } = await connect();
+  const { User } = await connect();
 
   const user: UserDocument = await User.findOne({ id });
   if (!user) {

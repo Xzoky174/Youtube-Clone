@@ -12,7 +12,7 @@ apiRoute.get(async (req, res) => {
   const { Video } = await connect();
   const videos = await Video.find({
     $text: { $search: search_query, $caseSensitive: false },
-  });
+  }).select("title"); // _id is selected by default
 
   res.status(200).json({ results: videos });
 });

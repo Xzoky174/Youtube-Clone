@@ -3,7 +3,6 @@ import { fetcher } from "../../utils/fetcher";
 
 import styles from "../../styles/modules/VideoSearch.module.css";
 import Loader from "../components/Loader";
-import { VideoDocument } from "../../types/VideoDocument";
 import Link from "next/link";
 import getVideoLink from "../../utils/getVideoLink";
 import { useEffect, useState } from "react";
@@ -42,7 +41,7 @@ export default function Index() {
       <div className={styles.resultsContainer}>
         <h1 className={styles.videoHeader}>Videos:</h1>
         <ul className={styles.results}>
-          {data.results.map((video: VideoDocument) => {
+          {data.results.map((video: { _id: string; title: string }) => {
             return (
               <li key={video._id} className={`${styles.video}`}>
                 <Link href={getVideoLink(video._id)} passHref>
