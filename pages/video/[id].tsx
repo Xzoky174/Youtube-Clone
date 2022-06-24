@@ -7,6 +7,7 @@ import styles from "../../styles/modules/Video.module.css";
 import Link from "next/link";
 import Loader from "../components/Loader";
 import useSession from "../hooks/useSession";
+import { fetcher } from "../../utils/fetcher";
 
 function Video() {
   const router = useRouter();
@@ -29,8 +30,7 @@ function Video() {
 
   useEffect(() => {
     if (id !== undefined) {
-      fetch(`/api/video/${id}`)
-        .then((res) => res.json())
+      fetcher(`/api/video/${id}`)
         .then((data) => {
           setData(data);
 

@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import useSWR from "swr";
 import { fetcher } from "../../utils/fetcher";
 import Image from "next/image";
 
@@ -9,18 +8,26 @@ import Loader from "../components/Loader";
 import { VideoDocument } from "../../types/VideoDocument";
 import Link from "next/link";
 import getVideoLink from "../../utils/getVideoLink";
+import { useEffect, useState } from "react";
 
 function User() {
   const router = useRouter();
   const { id } = router.query;
 
-  const { data, error } = useSWR(`/api/user/with-videos/${id}`, fetcher);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    id &&
+      fetcher(`/api/user/with-videos/${id}`).then((data) => {
+        setData(data);
+        setLoading(false);
+      });
+  });
 
   return (
     <div>
-      {error ? (
-        <h1>Something Went Wrong</h1>
-      ) : data ? (
+      {!loading ? (
         data.success ? (
           <div className={`${styles.main}`}>
             <div className={`${styles.userInfoContainer}`}>
