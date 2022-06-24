@@ -2,9 +2,9 @@
 
 New update TODO:
 
-- [ ] Add likes
+- [x] Add likes
   - [x] API
-  - [ ] Client
+  - [x] Client
 - [ ] Add comments
   - [ ] API
   - [ ] Client
