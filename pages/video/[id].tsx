@@ -109,7 +109,13 @@ function Video() {
                 <div className={styles.likeSub} onClick={handleLike}>
                   <Image
                     className={styles.likeImage}
-                    src={"/like-icon.svg"}
+                    src={
+                      user &&
+                      data &&
+                      (liked || data.data.video.users_liked.includes(user.id))
+                        ? "/liked-icon.svg"
+                        : "/like-icon.svg"
+                    }
                     alt="like"
                     width={32}
                     height={32}
