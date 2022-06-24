@@ -1,5 +1,4 @@
 import { useRouter } from "next/router";
-import useSWR from "swr";
 import { fetcher } from "../../utils/fetcher";
 
 import styles from "../../styles/modules/VideoSearch.module.css";
@@ -7,15 +6,25 @@ import Loader from "../components/Loader";
 import { VideoDocument } from "../../types/VideoDocument";
 import Link from "next/link";
 import getVideoLink from "../../utils/getVideoLink";
+import { useEffect, useState } from "react";
 
 export default function Index() {
   const router = useRouter();
   const { search_query } = router.query as { search_query: string };
 
-  const { data } = useSWR(
-    `/api/search?search_query=${encodeURIComponent(search_query)}`,
-    fetcher
-  );
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    search_query !== "" &&
+      search_query !== undefined &&
+      fetcher(
+        `/api/search?search_query=${encodeURIComponent(search_query)}`
+      ).then((data) => {
+        setData(data);
+        setLoading(false);
+      });
+  }, [search_query]);
 
   if (search_query === "") {
     return (
@@ -28,7 +37,7 @@ export default function Index() {
     );
   }
 
-  return data ? (
+  return !loading ? (
     data.results.length > 0 ? (
       <div className={styles.resultsContainer}>
         <h1 className={styles.videoHeader}>Videos:</h1>
