@@ -15,18 +15,4 @@ export default async function connect() {
     Video,
     User,
   };
-
-  // const videosConn = new mongoose.Mongoose();
-  // const usersConn = new mongoose.Mongoose();
-
-  // await videosConn.connect(process.env.VIDEOS_MONGO_URI);
-  // await usersConn.connect(process.env.USERS_MONGO_URI);
-
-  // const Video = videosConn.model("Video", VideoSchema);
-  // const User = usersConn.model("User", UserSchema);
-
-  // return {
-  //   Video,
-  //   User,
-  // };
 }
