@@ -16,7 +16,9 @@ function Video() {
   const [error, setError] = useState(null);
 
   const [refresh, setRefresh] = useState(false);
+
   const [liked, setLiked] = useState(false);
+  const [disliked, setDisLiked] = useState(false);
 
   const { user, loading } = useSession();
 
@@ -30,14 +32,18 @@ function Video() {
       fetch(`/api/video/${id}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data);
           setData(data);
+
           setLiked(false);
+          setDisLiked(false);
+
           setError(null);
         })
         .catch((e) => {
           setError(e);
+
           setLiked(false);
+          setDisLiked(false);
         });
     }
 
@@ -57,25 +63,43 @@ function Video() {
     if (!loading) {
       if (!user) {
         router.push("/api/auth/signin");
-      } else if (data && !data.data.video.users_liked.includes(user.id)) {
-        setLiked(true);
+      }
+      if (data) {
+        if (!data.data.video.users_liked.includes(user.id)) {
+          setLiked(true);
 
-        await fetch("/api/video/add-like", {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            video_id: data.data.video._id,
-          }),
-        });
+          await fetch("/api/video/add-like", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              video_id: data.data.video._id,
+            }),
+          });
 
-        setRefresh(true);
-        setTimeout(() => {
-          setLiked(false);
-        }, 5000);
+          setRefresh(true);
+        } else {
+          handleDisLike();
+        }
       }
     }
+  };
+
+  const handleDisLike = async () => {
+    setDisLiked(true);
+
+    await fetch("/api/video/remove-like", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        video_id: data.data.video._id,
+      }),
+    });
+
+    setRefresh(true);
   };
 
   return (
@@ -112,7 +136,9 @@ function Video() {
                     src={
                       user &&
                       data &&
-                      (liked || data.data.video.users_liked.includes(user.id))
+                      (liked ||
+                        (data.data.video.users_liked.includes(user.id) &&
+                          !disliked))
                         ? "/liked-icon.svg"
                         : "/like-icon.svg"
                     }
