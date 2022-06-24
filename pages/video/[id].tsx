@@ -1,8 +1,6 @@
 import { useRouter } from "next/router";
 import path from "path";
 import { useEffect, useState } from "react";
-import useSWR from "swr";
-import { fetcher } from "../../utils/fetcher";
 import Image from "next/image";
 
 import styles from "../../styles/modules/Video.module.css";
@@ -14,21 +12,33 @@ function Video() {
   const router = useRouter();
   const { id } = router.query;
 
-  const { user, loading } = useSession();
+  const [data, setData] = useState(null);
+  const [error, setError] = useState(null);
 
-  const { data, error } = useSWR(`/api/video/${id}`, fetcher);
+  const [refresh, setRefresh] = useState(false);
+  const [liked, setLiked] = useState(false);
+
+  const { user, loading } = useSession();
 
   const [videoDimensions, setVideoDimensions] = useState({
     width: 0,
     height: 0,
   });
-  const [liked, setLiked] = useState(false);
 
   useEffect(() => {
-    if (data) {
-      if (liked && data.data.video.users_liked.includes(user.id)) {
-        setLiked(false);
-      }
+    if (id !== undefined) {
+      fetch(`/api/video/${id}`)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setData(data);
+          setLiked(false);
+          setError(null);
+        })
+        .catch((e) => {
+          setError(e);
+          setLiked(false);
+        });
     }
 
     setVideoDimensions({
@@ -41,7 +51,7 @@ function Video() {
         width: window.innerWidth - 20,
         height: 480,
       });
-  }, [data, liked, user.id]);
+  }, [id, refresh]);
 
   const handleLike = async () => {
     if (!loading) {
@@ -60,9 +70,10 @@ function Video() {
           }),
         });
 
+        setRefresh(true);
         setTimeout(() => {
           setLiked(false);
-        }, 15000);
+        }, 5000);
       }
     }
   };
