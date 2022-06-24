@@ -10,8 +10,7 @@ const apiRoute = getNextConnectInstance();
 apiRoute.post(upload.single("file"), async (req, res) => {
   const { authenticated, user } = await checkAuthenticated(req, res);
   if (!authenticated) {
-    // TODO: Update to 401
-    res.status(403).json({
+    res.status(401).json({
       success: false,
       error: "You must be signed in to upload videos.",
       data: null,
