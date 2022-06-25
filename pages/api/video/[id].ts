@@ -1,10 +1,12 @@
 import connect from "../../../utils/mongoConnect";
 
 import { getNextConnectInstance } from "../../../utils/getNextConnectInstance";
+import checkAuthenticated from "../../../utils/checkAuthenticated";
 
 const apiRoute = getNextConnectInstance();
 
 apiRoute.get(async (req, res) => {
+  const { user } = await checkAuthenticated(req, res);
   const { id } = req.query;
 
   if (id === undefined || id === null) {
@@ -16,7 +18,7 @@ apiRoute.get(async (req, res) => {
 
   const { Video } = await connect();
 
-  let video: { author_id: any; _doc: any };
+  let video: any;
   video = await Video.findOne({ _id: id });
 
   if (!video) {
@@ -31,6 +33,13 @@ apiRoute.get(async (req, res) => {
   ).json();
 
   if (author) {
+    if (!user || !video.users_viewed.includes(user.id)) {
+      video.views += 1;
+      user && video.users_viewed.push(user.id);
+
+      await video.save();
+    }
+
     res.status(200).json({
       success: true,
       data: {

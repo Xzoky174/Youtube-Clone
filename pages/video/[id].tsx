@@ -126,7 +126,10 @@ function Video() {
               </video>
             </div>
             <div className={styles.videoInfo}>
-              <h1 className={styles.videoTitle}>{data.data.video.title}</h1>
+              <div className={styles.titleInfo}>
+                <h1 className={styles.videoTitle}>{data.data.video.title}</h1>
+                <p className={styles.views}>{data.data.video.views} views</p>
+              </div>
 
               <div className={styles.like}>
                 <div className={styles.likeSub} onClick={handleLike}>

@@ -7,8 +7,17 @@
   padding: 12px 48px;
   font-family: Quicksand, sans-serif;
 }
+.titleInfo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 .videoTitle {
   font-size: 28px;
+}
+.views {
+  font-size: 20px;
+  font-style: italic;
 }
 .like {
   display: flex;

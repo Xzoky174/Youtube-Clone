@@ -21,6 +21,14 @@ const VideoSchema = new mongoose.Schema({
     type: Array,
     default: [],
   },
+  views: {
+    type: Number,
+    default: 0,
+  },
+  users_viewed: {
+    type: Array,
+    default: [],
+  },
 }).index({ title: "text" });
 
 export default VideoSchema;
