@@ -63,8 +63,7 @@ function Video() {
     if (!loading) {
       if (!user) {
         router.push("/api/auth/signin");
-      }
-      if (data) {
+      } else if (data) {
         if (!data.data.video.users_liked.includes(user.id)) {
           setLiked(true);
 
