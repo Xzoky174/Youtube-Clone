@@ -19,9 +19,7 @@ apiRoute.get(async (req, res) => {
   const { Video } = await connect();
 
   let video: any;
-  try {
-    video = await Video.findOne({ _id: id });
-  } catch {} // Unnecessary error when id is undefined; ignore.
+  video = await Video.findOne({ _id: id });
 
   if (!video) {
     res
