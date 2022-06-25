@@ -17,9 +17,7 @@ apiRoute.get(async (req, res) => {
   const { Video } = await connect();
 
   let video: { author_id: any; _doc: any };
-  try {
-    video = await Video.findOne({ _id: id });
-  } catch {} // Unnecessary error when id is undefined; ignore.
+  video = await Video.findOne({ _id: id });
 
   if (!video) {
     res
