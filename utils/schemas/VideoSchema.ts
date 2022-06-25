@@ -17,6 +17,10 @@ const VideoSchema = new mongoose.Schema({
     type: Number,
     default: 0,
   },
+  views: {
+    type: Number,
+    default: 0,
+  },
   users_liked: {
     type: Array,
     default: [],
