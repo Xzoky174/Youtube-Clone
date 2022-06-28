@@ -7,4 +7,5 @@ export type VideoDocument = {
   users_liked: Array<Number>;
   views: number;
   users_viewed: Array<Number>;
+  comments: Array<Object>;
 };
