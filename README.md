@@ -9,5 +9,5 @@ New update TODO:
   - [x] API
   - [x] Client
 - [ ] Add comments
-  - [ ] API
+  - [x] API
   - [ ] Client
