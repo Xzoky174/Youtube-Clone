@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import path from "path";
-import { useEffect, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 import styles from "../../styles/modules/Video.module.css";
@@ -20,6 +20,8 @@ function Video() {
 
   const [liked, setLiked] = useState(false);
   const [disliked, setDisLiked] = useState(false);
+
+  const commentRef = useRef(null);
 
   const { user, loading } = useSession();
 
@@ -101,6 +103,32 @@ function Video() {
     setRefresh(refresh + 1);
   };
 
+  const handleComment = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!loading) {
+      if (!user) {
+        router.push("/api/auth/signin");
+        return;
+      }
+      const comment = commentRef.current.value;
+      commentRef.current.value = "";
+
+      await fetch("/api/video/add-comment", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          video_id: id,
+          comment,
+        }),
+      });
+
+      setRefresh(refresh + 1);
+    }
+  };
+
   return (
     <div>
       {error ? (
@@ -171,6 +199,34 @@ function Video() {
                   <h1 className={styles.authorName}>{data.data.author.name}</h1>
                 </a>
               </Link>
+
+              <h1 className={styles.commentsHeader}>Comments:</h1>
+              <form onSubmit={handleComment}>
+                <input
+                  className={styles.commentInput}
+                  type="text"
+                  placeholder="Write a Comment"
+                  ref={commentRef}
+                />
+              </form>
+
+              {data.data.video.comments.length > 0 ? (
+                <>
+                  <ul className={styles.commentsList}>
+                    {data.data.video.comments.map((comment: any) => {
+                      return (
+                        <li key={comment._id}>
+                          <div className={styles.comment}>
+                            {comment.comment}
+                          </div>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </>
+              ) : (
+                <h1>No comments. Be the first one to comment!</h1>
+              )}
             </div>
           </div>
         ) : (
