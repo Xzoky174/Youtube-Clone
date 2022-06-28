@@ -12,7 +12,7 @@ apiRoute.put(async (req, res) => {
     res.status(401).json({
       success: false,
       error: "You must be signed in to post comments.",
-      likes: null,
+      comments: null,
     });
     return;
   }
@@ -20,7 +20,7 @@ apiRoute.put(async (req, res) => {
     res.status(400).json({
       success: false,
       error: "Video ID not provided.",
-      likes: null,
+      comments: null,
     });
     return;
   }
@@ -28,7 +28,7 @@ apiRoute.put(async (req, res) => {
     res.status(400).json({
       success: false,
       error: "No comment.",
-      likes: null,
+      comments: null,
     });
     return;
   }
@@ -40,7 +40,7 @@ apiRoute.put(async (req, res) => {
     res.status(400).json({
       success: false,
       error: "Video not found.",
-      likes: null,
+      comments: null,
     });
     return;
   }
