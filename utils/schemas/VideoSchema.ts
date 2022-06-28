@@ -29,6 +29,10 @@ const VideoSchema = new mongoose.Schema({
     type: Array,
     default: [],
   },
+  comments: {
+    type: [{ author_id: String, comment: String }],
+    default: [],
+  },
 }).index({ title: "text" });
 
 export default VideoSchema;
