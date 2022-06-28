@@ -47,3 +47,20 @@
 .authorName {
   font-size: 22px;
 }
+.commentsHeader {
+  margin-top: 28px;
+  margin-bottom: 8px;
+}
+.commentInput {
+  padding: 2px 3px;
+  font-size: 14px;
+  width: 200px;
+}
+.commentsList {
+  margin-top: 16px;
+  padding: 0;
+  list-style-type: none;
+}
+.comment {
+  margin: 8px 0;
+}
