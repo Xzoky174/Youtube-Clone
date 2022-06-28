@@ -8,6 +8,6 @@ New update TODO:
 - [x] Add views
   - [x] API
   - [x] Client
-- [ ] Add comments
+- [x] Add comments
   - [x] API
-  - [ ] Client
+  - [x] Client
